@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground">
+
+    <TextView
+        android:id="@+id/tvHeaderTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:fontFamily="sans-serif"
+        android:padding="@dimen/dimen_16dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="16.0sp"
+        android:textStyle="bold"
+        tools:ignore="RelativeOverlap"
+        tools:text="Title test text" />
+
+    <ImageView
+        android:id="@+id/imgHeaderArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="15dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_keyboard_arrow_right_black_18dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/dimen_16dp"
+        android:layout_marginEnd="@dimen/dimen_16dp"
+        android:background="@color/colorDivider" />
+
+</RelativeLayout>

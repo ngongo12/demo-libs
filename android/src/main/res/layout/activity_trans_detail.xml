@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:title="@string/app_name" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_15dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:textColor="#ff222222"
+                android:textSize="20.0sp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:includeFontPadding="false"
+                android:textColor="#ff222222"
+                android:textSize="40.0sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ivStatus"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvStatus" />
+
+            <ImageView
+                android:id="@+id/ivStatus"
+                android:layout_width="45.0dip"
+                android:layout_height="0.0dip"
+                android:layout_marginStart="@dimen/dimen_8dp"
+                app:layout_constraintBottom_toBottomOf="@id/tvAmount"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvAmount"
+                app:layout_constraintTop_toTopOf="@id/tvAmount" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_4dp"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/colorSecondary"
+                android:textSize="16.0sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivStatus" />
+
+            <View
+                android:id="@+id/viewDivider"
+                android:layout_width="30.0dip"
+                android:layout_height="2.0dip"
+                android:layout_marginTop="@dimen/dimen_20dp"
+                android:background="@color/colorDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvDate" />
+
+            <TextView
+                android:id="@+id/tvFailedDesc"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_20dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:textColor="@color/colorBlack"
+                android:textSize="16.0sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewDivider" />
+
+            <TextView
+                android:id="@+id/tvPaidFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_10dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:paddingStart="@dimen/dimen_10dp"
+                android:paddingEnd="@dimen/dimen_10dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="16.0sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvFailedDesc"
+                app:layout_goneMarginTop="@dimen/dimen_32dp" />
+
+            <TextView
+                android:id="@+id/tvCardNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/colorBlack"
+                android:textSize="24.0sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPaidFrom" />
+
+            <TextView
+                android:id="@+id/tvCardName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_4dp"
+                android:fontFamily="sans-serif"
+                android:paddingBottom="@dimen/dimen_20dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="16.0sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvCardNumber" />
+
+            <View
+                android:id="@+id/viewPartition"
+                android:layout_width="fill_parent"
+                android:layout_height="20.0dip"
+                android:background="@color/colorPartition"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvCardName" />
+
+            <TextView
+                android:id="@+id/tvVoidPayment"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:drawablePadding="@dimen/dimen_16dp"
+                android:fontFamily="sans-serif"
+                android:padding="@dimen/dimen_16dp"
+                android:text="@string/cancel_payments"
+                android:textColor="@color/colorBlack"
+                android:textSize="16.0sp"
+                app:drawableEndCompat="@drawable/ic_keyboard_arrow_right_black_18dp"
+                app:drawableStartCompat="@drawable/ic_cancel_line"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewPartition" />
+
+            <View
+                android:id="@+id/viewSeparator1"
+                android:layout_width="fill_parent"
+                android:layout_height="1.0dip"
+                android:layout_marginStart="56.0dip"
+                android:background="@color/colorDivider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvVoidPayment" />
+
+            <TextView
+                android:id="@+id/tvPrintReceipt"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp"
+                android:drawablePadding="@dimen/dimen_16dp"
+                android:fontFamily="sans-serif"
+                android:padding="@dimen/dimen_16dp"
+                android:text="@string/print_receipt"
+                android:textColor="@color/colorBlack"
+                android:textSize="16.0sp"
+                app:drawableEndCompat="@drawable/ic_keyboard_arrow_right_black_18dp"
+                app:drawableStartCompat="@drawable/ic_receipt_line"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewSeparator1" />
+
+            <View
+                android:id="@+id/viewSeparator2"
+                android:layout_width="fill_parent"
+                android:layout_height="1.0dip"
+                android:layout_marginStart="56.0dip"
+                android:background="@color/colorDivider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPrintReceipt" />
+
+            <Button
+                android:id="@+id/btnCallback"
+                android:layout_width="0.0dip"
+                android:layout_height="70.0dip"
+                android:layout_margin="@dimen/dimen_8dp"
+                android:background="@color/colorPrimary"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="@string/new_payment"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewSeparator2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
