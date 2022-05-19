@@ -1,4 +1,4 @@
-package com.reactnativedemoemvcard.card_reader.emv;
+package com.reactnativedemolibs.card_reader.emv;
 
 import android.os.Bundle;
 
@@ -11,10 +11,10 @@ import com.pos.sdk.emvcore.PosEmvCapk;
 import com.pos.sdk.emvcore.PosEmvExceptionFile;
 import com.pos.sdk.emvcore.PosEmvRevocationIPK;
 import com.pos.sdk.utils.PosUtils;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.BerTag;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.BerTlv;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.BerTlvBuilder;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.HexUtil;
+import com.reactnativedemolibs.card_reader.utils.tlv.BerTag;
+import com.reactnativedemolibs.card_reader.utils.tlv.BerTlv;
+import com.reactnativedemolibs.card_reader.utils.tlv.BerTlvBuilder;
+import com.reactnativedemolibs.card_reader.utils.tlv.HexUtil;
 
 import java.util.ArrayList;
 import java.util.List;

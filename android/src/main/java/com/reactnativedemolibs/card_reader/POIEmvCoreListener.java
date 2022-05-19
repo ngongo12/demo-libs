@@ -1,5 +1,6 @@
-package com.reactnativedemoemvcard.card_reader;
+package com.reactnativedemolibs.card_reader;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,28 +13,34 @@ import com.pos.sdk.emvcore.POIEmvCoreManager;
 import com.pos.sdk.emvcore.POIEmvCoreManager.EmvCardInfoConstraints;
 import com.pos.sdk.emvcore.POIEmvCoreManager.EmvOnlineConstraints;
 import com.pos.sdk.emvcore.PosEmvErrorCode;
-import com.reactnativedemoemvcard.card_reader.data.TransactionData;
-import com.reactnativedemoemvcard.card_reader.device.DeviceConfig;
-import com.reactnativedemoemvcard.card_reader.emv.utils.EmvCard;
-import com.reactnativedemoemvcard.card_reader.utils.AppExecutors;
-import com.reactnativedemoemvcard.card_reader.utils.GlobalData;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.BerTlv;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.BerTlvBuilder;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.BerTlvParser;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.BerTlvs;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.HexUtil;
-import com.reactnativedemoemvcard.card_reader.view.PasswordDialog;
+import com.reactnativedemolibs.card_reader.data.TransactionData;
+import com.reactnativedemolibs.card_reader.device.DeviceConfig;
+import com.reactnativedemolibs.card_reader.emv.utils.EmvCard;
+import com.reactnativedemolibs.card_reader.emv.utils.EmvTrack1;
+import com.reactnativedemolibs.card_reader.utils.AppExecutors;
+import com.reactnativedemolibs.card_reader.utils.GlobalData;
+import com.reactnativedemolibs.card_reader.utils.tlv.BerTlv;
+import com.reactnativedemolibs.card_reader.utils.tlv.BerTlvBuilder;
+import com.reactnativedemolibs.card_reader.utils.tlv.BerTlvParser;
+import com.reactnativedemolibs.card_reader.utils.tlv.BerTlvs;
+import com.reactnativedemolibs.card_reader.utils.tlv.HexUtil;
+import com.reactnativedemolibs.card_reader.view.PasswordDialog;
 
 import java.util.List;
 
 public class POIEmvCoreListener extends IPosEmvCoreListener.Stub {
 
   private final String TAG = "POIEmvCoreListener";
-  private TransactionData transactionData = new TransactionData();
-  public Promise promiseCardInfomation = null;
-  private POIEmvCoreManager emvCoreManager = POIEmvCoreManager.getDefault();
+  private TransactionData transactionData;
+  public Promise promiseCardInfomation;
+  private POIEmvCoreManager emvCoreManager;
+  private Context context;
 
-  public POIEmvCoreListener() {
+  public POIEmvCoreListener(Context context) {
+    transactionData = new TransactionData();
+    promiseCardInfomation = null;
+    emvCoreManager = POIEmvCoreManager.getDefault();
+    this.context = context;
   }
 
   @Override
@@ -43,19 +50,26 @@ public class POIEmvCoreListener extends IPosEmvCoreListener.Stub {
     AppExecutors.getInstance().mainThread().execute(() -> {
       switch (type) {
         case POIEmvCoreManager.DEVICE_CONTACT:
-          Log.i("Card reader", "Contact Card Trans");
+          Log.i(TAG, "Contact Card Trans");
           break;
         case POIEmvCoreManager.DEVICE_CONTACTLESS:
-          Log.i("Card reader", "Contactless Card Trans");
+          Log.i(TAG, "Contactless Card Trans");
           break;
         case POIEmvCoreManager.DEVICE_MAGSTRIPE:
-          Log.i("Card reader", "Magstripe Card Trans");
+          Log.i(TAG, "Magstripe Card Trans");
           break;
         default:
-          Log.i("Card reader", "Not found");
+          Log.i(TAG, "Not found");
       }
-      Log.i("Card reader", "Processing");
+      Log.i(TAG, "Processing");
+
+      byte[] data = bundle.getByteArray("track1");
+//      EmvCard track1 = new EmvCard(data);
+//      data = bundle.getByteArray("track2");
+
+      Log.d(TAG, "onEmvProcess: data: " + bundle.toString());
     });
+
   }
 
   @Override
@@ -115,9 +129,10 @@ public class POIEmvCoreListener extends IPosEmvCoreListener.Stub {
       @Override
       public void run() {
         boolean isIcLost = transactionData.getCardType() ==POIEmvCoreManager.DEVICE_CONTACT;
-        PasswordDialog dialog = new PasswordDialog(null, isIcLost, bundle, DeviceConfig.PIN_INDEX);
-        dialog.showDialog();
-        Log.i(TAG, "run: onRequestInputPin");
+        PasswordDialog dialog = new PasswordDialog(context, isIcLost, bundle, DeviceConfig.PIN_INDEX);
+//        dialog.showDialog();
+        byte[] data = bundle.getByteArray(POIEmvCoreManager.EmvResultConstraints.EMV_DATA);
+        Log.d(TAG, "mainThread: onRequestInputPin: " + bundle.toString());
       }
     });
 
@@ -125,7 +140,7 @@ public class POIEmvCoreListener extends IPosEmvCoreListener.Stub {
 
   @Override
   public void onRequestOnlineProcess(Bundle bundle) throws RemoteException {
-    Log.d(TAG, "onRequestOnlineProcess: ");
+    Log.d(TAG, "onRequestOnlineProcess: " + bundle.toString());
     AppExecutors.getInstance().mainThread().execute(new Runnable() {
       @Override
       public void run() {
@@ -163,6 +178,9 @@ public class POIEmvCoreListener extends IPosEmvCoreListener.Stub {
         data = bundle.getByteArray(EmvOnlineConstraints.EMV_DATA);
         if (data != null) {
           Log.d(TAG, "Trans Data : " + HexUtil.toHexString(data));
+          EmvCard emvCard = new EmvCard(data);
+          Log.d(TAG, "Trans Data: " +  emvCard);
+          promiseCardInfomation.resolve(emvCard.convertWritable());
         }
         encryptData = bundle.getByteArray(EmvOnlineConstraints.ENCRYPT_DATA);
         if (encryptData != null) {
@@ -221,8 +239,10 @@ public class POIEmvCoreListener extends IPosEmvCoreListener.Stub {
     Log.d(TAG, "onTransactionResult: " + result);
     switch (result){
       case PosEmvErrorCode.EMV_CANCEL:
+        throwError(result+"", "Emv Cancel");
+        return;
       case PosEmvErrorCode.EMV_TIMEOUT:
-//        onTransEnd();
+        throwError(result+"", "Emv scanning timeout");
         return;
       default:
         break;
@@ -258,8 +278,12 @@ public class POIEmvCoreListener extends IPosEmvCoreListener.Stub {
           Log.d(TAG, "VAS Merchant : " + HexUtil.toHexString(vasMerchant));
         }
         data = bundle.getByteArray(POIEmvCoreManager.EmvResultConstraints.EMV_DATA);
+        Log.d(TAG, "run: data: " + data);
         if (data != null) {
           Log.d(TAG, "Trans Data : " + HexUtil.toHexString(data));
+          EmvCard emvCard = new EmvCard(data);
+          Log.d(TAG, "Trans Data: " +  emvCard);
+          promiseCardInfomation.resolve(emvCard.convertWritable());
         }
         encryptData = bundle.getByteArray(POIEmvCoreManager.EmvResultConstraints.ENCRYPT_DATA);
         if (encryptData != null) {
@@ -298,7 +322,7 @@ public class POIEmvCoreListener extends IPosEmvCoreListener.Stub {
 
           data = tlvBuilder.buildArray();
         }
-
+        Log.d(TAG, "run: " + result );
         switch (result) {
           case PosEmvErrorCode.EMV_MULTI_CONTACTLESS:
 //            isViewUpdate = true;
@@ -356,6 +380,7 @@ public class POIEmvCoreListener extends IPosEmvCoreListener.Stub {
         transactionData.setTransData(data);
         transactionData.setTransResult(result);
 
+        Log.d(TAG, "data: " + data);
         if (data != null) {
           EmvCard emvCard = new EmvCard(data);
           if (emvCard.getCardNumber() != null) {
@@ -409,4 +434,13 @@ public class POIEmvCoreListener extends IPosEmvCoreListener.Stub {
     return bundle;
   }
 
+  private void onTransEnd(String code){
+    promiseCardInfomation.reject(code, code);
+  }
+
+  private void throwError(String code, String message) {
+    if(promiseCardInfomation != null){
+      promiseCardInfomation.reject(code, message);
+    }
+  }
 }

@@ -1,4 +1,4 @@
-package com.reactnativedemoemvcard.card_reader.utils;
+package com.reactnativedemolibs.card_reader.utils;
 
 import android.os.Handler;
 import android.os.Looper;

@@ -1,4 +1,4 @@
-package com.reactnativedemoemvcard.card_reader.utils.tlv;
+package com.reactnativedemolibs.card_reader.utils.tlv;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,8 @@
-package com.reactnativedemoemvcard.card_reader.view;
+package com.reactnativedemolibs.card_reader.view;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,15 +25,15 @@ import com.pos.sdk.emvcore.POIEmvCoreManager;
 import com.pos.sdk.emvcore.POIEmvCoreManager.EmvPinConstraints;
 import com.pos.sdk.security.POIHsmManage;
 import com.pos.sdk.security.PedRsaPinKey;
-import com.reactnativedemoemvcard.R;
-import com.reactnativedemoemvcard.card_reader.device.DeviceConfig;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.HexUtil;
+import com.reactnativedemolibs.R;
+import com.reactnativedemolibs.card_reader.device.DeviceConfig;
+import com.reactnativedemolibs.card_reader.utils.tlv.HexUtil;
 
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 
 public class PasswordDialog {
-
+    private final String TAG = "PasswordDialog";
     public static final int PLAIN_PIN    = 1;
     public static final int ONLINE_PIN   = 2;
     public static final int ENCIPHER_PIN = 3;
@@ -67,7 +68,8 @@ public class PasswordDialog {
     private ImageView btnClear;
     private TextView  btnEsc, btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9;
 
-    public PasswordDialog(Activity context, boolean isIcSlot, Bundle bundle, int keyIndex) {
+    public PasswordDialog(Context context, boolean isIcSlot, Bundle bundle, int keyIndex) {
+      Log.d(TAG, "PasswordDialog: " + bundle.toString());
         this.hsmManage = POIHsmManage.getDefault();
         this.pinEventListener = new PinEventListener();
         if (isIcSlot) {
@@ -131,44 +133,48 @@ public class PasswordDialog {
         }
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        ConstraintLayout view = (ConstraintLayout) inflater.inflate(R.layout.layout_password, null);
-        TextView tvTitle = view.findViewById(R.id.tvTitle);
-        tvMessage = view.findViewById(R.id.tvMessage);
-        etPin = view.findViewById(R.id.etPin);
-        btnConfirm = view.findViewById(R.id.btnConfirm);
-        btnClear = view.findViewById(R.id.btnClear);
-        btnEsc = view.findViewById(R.id.btnEsc);
-        btn0 = view.findViewById(R.id.btn0);
-        btn1 = view.findViewById(R.id.btn1);
-        btn2 = view.findViewById(R.id.btn2);
-        btn3 = view.findViewById(R.id.btn3);
-        btn4 = view.findViewById(R.id.btn4);
-        btn5 = view.findViewById(R.id.btn5);
-        btn6 = view.findViewById(R.id.btn6);
-        btn7 = view.findViewById(R.id.btn7);
-        btn8 = view.findViewById(R.id.btn8);
-        btn9 = view.findViewById(R.id.btn9);
+        Log.d("LayoutInflater", "PasswordDialog: " + inflater);
+//        ConstraintLayout view = (ConstraintLayout) inflater.inflate(R.layout.layout_password, null);
+//        TextView tvTitle = view.findViewById(R.id.tvTitle);
+//        tvMessage = view.findViewById(R.id.tvMessage);
+//        etPin = view.findViewById(R.id.etPin);
+//        btnConfirm = view.findViewById(R.id.btnConfirm);
+//        btnClear = view.findViewById(R.id.btnClear);
+//        btnEsc = view.findViewById(R.id.btnEsc);
+//        btn0 = view.findViewById(R.id.btn0);
+//        btn1 = view.findViewById(R.id.btn1);
+//        btn2 = view.findViewById(R.id.btn2);
+//        btn3 = view.findViewById(R.id.btn3);
+//        btn4 = view.findViewById(R.id.btn4);
+//        btn5 = view.findViewById(R.id.btn5);
+//        btn6 = view.findViewById(R.id.btn6);
+//        btn7 = view.findViewById(R.id.btn7);
+//        btn8 = view.findViewById(R.id.btn8);
+//        btn9 = view.findViewById(R.id.btn9);
+//
+//        Group groupKeyboard = view.findViewById(R.id.groupKeyboard);
+//        if (DeviceConfig.isHardwareKeyboard) {
+//            groupKeyboard.setVisibility(View.GONE);
+//        }
+//
+//        tvTitle.setText(title);
+//        tvMessage.setText(message);
+//
+//        dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.setContentView(view);
+//        Window window = dialog.getWindow();
+//        WindowManager.LayoutParams wlp = window.getAttributes();
+//
+//        wlp.gravity = Gravity.CENTER;
+//        wlp.flags &= ~WindowManager.LayoutParams.FLAG_BLUR_BEHIND;
+//        window.setAttributes(wlp);
+//        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//        window.setGravity(Gravity.BOTTOM);
+//        dialog.show();
 
-        Group groupKeyboard = view.findViewById(R.id.groupKeyboard);
-        if (DeviceConfig.isHardwareKeyboard) {
-            groupKeyboard.setVisibility(View.GONE);
-        }
-
-        tvTitle.setText(title);
-        tvMessage.setText(message);
-
-        dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(view);
-        Window window = dialog.getWindow();
-        WindowManager.LayoutParams wlp = window.getAttributes();
-
-        wlp.gravity = Gravity.CENTER;
-        wlp.flags &= ~WindowManager.LayoutParams.FLAG_BLUR_BEHIND;
-        window.setAttributes(wlp);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        window.setGravity(Gravity.BOTTOM);
-        dialog.show();
+      //Test
+      onPinError(0, 0);
     }
 
     public int showDialog() {

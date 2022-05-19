@@ -1,4 +1,4 @@
-package com.reactnativedemoemvcard.card_reader.utils.tlv;
+package com.reactnativedemolibs.card_reader.utils.tlv;
 
 public interface IBerTlvLogger {
 

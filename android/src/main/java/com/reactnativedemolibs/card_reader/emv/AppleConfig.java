@@ -1,16 +1,16 @@
-package com.reactnativedemoemvcard.card_reader.emv;
+package com.reactnativedemolibs.card_reader.emv;
 
 import android.os.Bundle;
 
 import com.pos.sdk.emvcore.POIEmvCoreManager;
 import com.pos.sdk.emvcore.POIEmvCoreManager.AppleTerminalConstraints;
-import com.reactnativedemoemvcard.card_reader.utils.GlobalData;
-import com.reactnativedemoemvcard.card_reader.utils.SPUtils;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.BerTag;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.BerTlv;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.BerTlvBuilder;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.BerTlvParser;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.BerTlvs;
+import com.reactnativedemolibs.card_reader.utils.GlobalData;
+import com.reactnativedemolibs.card_reader.utils.SPUtils;
+import com.reactnativedemolibs.card_reader.utils.tlv.BerTag;
+import com.reactnativedemolibs.card_reader.utils.tlv.BerTlv;
+import com.reactnativedemolibs.card_reader.utils.tlv.BerTlvBuilder;
+import com.reactnativedemolibs.card_reader.utils.tlv.BerTlvParser;
+import com.reactnativedemolibs.card_reader.utils.tlv.BerTlvs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +70,7 @@ public class AppleConfig {
             case AppleTerminalConstraints.CAPABILITY_DUAL_MODE:
                 appleVasCapability = APPLE_VAS_CAPABILITY_DUAL_MODE;
                 break;
-            case POIEmvCoreManager.AppleTerminalConstraints.CAPABILITY_VAS_ONLY:
+            case AppleTerminalConstraints.CAPABILITY_VAS_ONLY:
                 appleVasCapability = APPLE_VAS_CAPABILITY_VAS_ONLY;
                 break;
             default:

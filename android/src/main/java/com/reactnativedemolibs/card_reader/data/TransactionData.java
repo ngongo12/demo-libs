@@ -1,4 +1,4 @@
-package com.reactnativedemoemvcard.card_reader.data;
+package com.reactnativedemolibs.card_reader.data;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

@@ -1,4 +1,4 @@
-package com.reactnativedemoemvcard.card_reader.device;
+package com.reactnativedemolibs.card_reader.device;
 
 public class DeviceConfig {
 

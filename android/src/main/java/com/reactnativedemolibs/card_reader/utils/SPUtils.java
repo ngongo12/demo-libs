@@ -1,8 +1,9 @@
-package com.reactnativedemoemvcard.card_reader.utils;
+package com.reactnativedemolibs.card_reader.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,7 +12,7 @@ import java.util.Set;
 
 @SuppressLint("ApplySharedPref")
 public final class SPUtils {
-
+    public  static final String TAG = "SPUtils";
     private static final Map<String, SPUtils> SP_UTILS_MAP = new HashMap<>();
     private SharedPreferences sp;
 
@@ -28,19 +29,26 @@ public final class SPUtils {
     }
 
     public static SPUtils getInstance(String spName, final int mode) {
+        Log.d(TAG, "getInstance: ");
         if (isSpace(spName)) {
             spName = "spUtils";
         }
+      Log.d(TAG, "spName: " + spName);
         SPUtils spUtils = SP_UTILS_MAP.get(spName);
+      Log.d(TAG, "spUtils: " + spUtils);
         if (spUtils == null) {
             synchronized (SPUtils.class) {
                 spUtils = SP_UTILS_MAP.get(spName);
+              Log.d(TAG, "spUtils2: " + spUtils);
                 if (spUtils == null) {
+                  Log.d(TAG, "Vào if");
                     spUtils = new SPUtils(spName, mode);
+                  Log.d(TAG, "spUtils3: " + spUtils);
                     SP_UTILS_MAP.put(spName, spUtils);
                 }
             }
         }
+        Log.d("SPUtils", "getInstance: " + spUtils);
         return spUtils;
     }
 
@@ -49,6 +57,7 @@ public final class SPUtils {
     }
 
     private SPUtils(final String spName, final int mode) {
+      Log.d(TAG, "SPUtils: AppUtils " + AppUtils.getApp());
         sp = AppUtils.getApp().getSharedPreferences(spName, mode);
     }
 

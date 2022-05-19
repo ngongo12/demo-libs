@@ -1,8 +1,8 @@
-package com.reactnativedemoemvcard.card_reader.emv.utils;
+package com.reactnativedemolibs.card_reader.emv.utils;
 
 import androidx.annotation.NonNull;
 
-import com.reactnativedemoemvcard.card_reader.utils.tlv.HexUtil;
+import com.reactnativedemolibs.card_reader.utils.tlv.HexUtil;
 
 import java.util.Date;
 

@@ -1,11 +1,13 @@
-package com.reactnativedemoemvcard.card_reader.emv.utils;
+package com.reactnativedemolibs.card_reader.emv.utils;
 
 import androidx.annotation.NonNull;
 
-import com.reactnativedemoemvcard.card_reader.utils.tlv.BerTag;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.BerTlv;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.BerTlvParser;
-import com.reactnativedemoemvcard.card_reader.utils.tlv.BerTlvs;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
+import com.reactnativedemolibs.card_reader.utils.tlv.BerTag;
+import com.reactnativedemolibs.card_reader.utils.tlv.BerTlv;
+import com.reactnativedemolibs.card_reader.utils.tlv.BerTlvParser;
+import com.reactnativedemolibs.card_reader.utils.tlv.BerTlvs;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -253,5 +255,23 @@ public class EmvCard implements Serializable {
                 ", track2=" + track2 +
                 ", track1=" + track1 +
                 '}';
+    }
+
+    public WritableNativeMap convertWritable() {
+      WritableNativeMap result = new WritableNativeMap();
+      result.putString("cardNumber", cardNumber);
+      if(cardExpireDate != null) {
+        result.putString("cardExpireDate", cardExpireDate.toString());
+      }else {
+        result.putString("cardExpireDate", "");
+      }
+      result.putInt("cardSequenceNumber", cardSequenceNumber);
+      result.putString("cardHolderName", cardHolderName);
+      result.putString("appLabel", appLabel);
+      result.putString("serviceCode", serviceCode);
+      result.putInt("issuerCountryCode", issuerCountryCode);
+//      result.putString("track2", track2.toString());
+//      result.putString("track1", track1.toString());
+      return result;
     }
 }

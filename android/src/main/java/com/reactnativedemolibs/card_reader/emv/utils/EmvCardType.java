@@ -1,4 +1,4 @@
-package com.reactnativedemoemvcard.card_reader.emv.utils;
+package com.reactnativedemolibs.card_reader.emv.utils;
 
 import com.pos.sdk.emvcore.POIEmvCoreManager;
 

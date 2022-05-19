@@ -1,9 +1,9 @@
-package com.reactnativedemoemvcard.card_reader.data;
+package com.reactnativedemolibs.card_reader.data;
 
 import androidx.lifecycle.LiveData;
 
-import com.reactnativedemoemvcard.card_reader.utils.AppExecutors;
-import com.reactnativedemoemvcard.card_reader.utils.GlobalData;
+import com.reactnativedemolibs.card_reader.utils.AppExecutors;
+import com.reactnativedemolibs.card_reader.utils.GlobalData;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,11 +14,15 @@ public class TransactionRepository {
     private static TransactionRepository instance;
     private TransactionDao transactionDao;
 
-    private TransactionRepository(TransactionDao transactionDao) {
+    public TransactionRepository(TransactionDao transactionDao) {
         this.transactionDao = transactionDao;
     }
 
-    public static TransactionRepository getInstance(TransactionDao transactionDao) {
+  public TransactionRepository() {
+
+  }
+
+  public static TransactionRepository getInstance(TransactionDao transactionDao) {
         if (instance == null) {
             synchronized (TransactionRepository.class) {
                 if (instance == null) {
