@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
+import columnify from 'columnify';
 import React, { useEffect, useState } from 'react';
 
 import {
@@ -19,7 +20,7 @@ const {
   closePrinter,
   beginPrint,
   cleanCache,
-  sleep,
+  printLogo,
 } = NativeModules.DemoLibs;
 
 export default function App() {
@@ -66,10 +67,39 @@ export default function App() {
     cleanCache();
     // printTextLine('', size, position, false, false, false);
     // printTextLine('', size, position, false, false, false);
-    printTextLine(`Card Number: ${cardNumber}`, size, position, false, false, false);
-    printTextLine(`Holder: ${cardHolderName}`, size, position, false, false, false);
-    printTextLine(`Expire Date: ${cardExpireDate}`, size, position, false, false, false);
-    printTextLine(`App Label: ${appLabel}`, size, position, false, false, false);
+    // printTextLine(`Card Number: ${cardNumber}`, size, position, false, false, false);
+    printTextLine(
+      toColumn('Card Number:', cardNumber),
+      size,
+      position,
+      false,
+      false,
+      false
+    );
+    printTextLine(
+      toColumn('Holder:', cardHolderName, 24, 40),
+      size,
+      position,
+      false,
+      false,
+      false
+    );
+    printTextLine(
+      toColumn('Expire Date:', cardExpireDate, 21, 41),
+      size,
+      position,
+      false,
+      false,
+      false
+    );
+    printTextLine(
+      toColumn('App Label:', appLabel, 20, 61 - (appLabel?.length || 0)),
+      size,
+      position,
+      false,
+      false,
+      false
+    );
     printTextLine('', size, position, false, false, false);
     printTextLine('', size, position, false, false, false);
     printTextLine('', size, position, false, false, false);
@@ -77,8 +107,7 @@ export default function App() {
     beginPrint();
     closePrinter();
   };
-  const printLine = (content = "Không có kết quả", position = 1, size = 25) => {
-    
+  const printLine = (content = 'Không có kết quả', position = 1, size = 25) => {
     openPrinter();
     cleanCache();
     // printTextLine('', size, position, false, false, false);
@@ -90,13 +119,36 @@ export default function App() {
 
   const printResult = () => {
     console.log('Đang in');
-    if(result){
+    cleanCache();
+    if (result) {
       printCardValue();
+    } else {
+      printLine();
     }
-    else{
-      printLine()
-    }
-  }
+  };
+
+  const toColumn = (key, value, leftWidth=15, rightWidth=35) => {
+    return columnify([{ key, value }], {
+      showHeaders: false,
+      config: { key: { align: 'left', minWidth: leftWidth, maxWidth: leftWidth }, value: { align: 'right', minWidth: rightWidth, maxWidth: rightWidth} },
+    });
+  };
+
+  const handlePrintLogo = () => {
+    openPrinter();
+    cleanCache();
+    printTextLine('', 20, 1, false, false, false);
+    printLogo();
+    printTextLine('', 20, 1, false, false, false);
+    printTextLine('', 20, 1, false, false, false);
+    printTextLine('', 20, 1, false, false, false);
+    printTextLine('', 20, 1, false, false, false);
+    beginPrint();
+    closePrinter();
+  };
+
+  console.log(toColumn('Card Number:', cardNumber));
+  console.log(toColumn('Holder:', cardHolderName));
 
   return (
     <View style={styles.container}>
@@ -120,6 +172,11 @@ export default function App() {
       <TouchableOpacity style={styles.btn} onPress={() => printResult()}>
         <Text style={{ fontSize: 18, color: 'white', textAlign: 'center' }}>
           Print
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.btn} onPress={() => handlePrintLogo()}>
+        <Text style={{ fontSize: 18, color: 'white', textAlign: 'center' }}>
+          Print Logo
         </Text>
       </TouchableOpacity>
     </View>

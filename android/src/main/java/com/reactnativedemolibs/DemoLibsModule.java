@@ -1,6 +1,13 @@
 package com.reactnativedemolibs;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.util.TypedValue;
 
 import androidx.annotation.NonNull;
 
@@ -8,10 +15,9 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.module.annotations.ReactModule;
 
-import java.util.HashMap;
+import java.io.InputStream;
 
 @ReactModule(name = DemoLibsModule.NAME)
 public class DemoLibsModule extends ReactContextBaseJavaModule {
@@ -19,11 +25,13 @@ public class DemoLibsModule extends ReactContextBaseJavaModule {
   public static final String TAG = "DemoLibs";
   private CartReaderManager cardReader;
   private PrintController printController;
+  private Context context;
 
   public DemoLibsModule(ReactApplicationContext reactContext) {
     super(reactContext);
     cardReader = new CartReaderManager(reactContext);
     printController = new PrintController(reactContext);
+    this.context = reactContext;
   }
 
   @Override
@@ -94,6 +102,22 @@ public class DemoLibsModule extends ReactContextBaseJavaModule {
     try{
       Thread.sleep(ms);
     } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @SuppressLint({"ResourceType", "NewApi"})
+  @ReactMethod
+  public void printLogo(){
+    try {
+      Log.d(TAG, "printLogo: ");
+      Resources resources = context.getResources();
+      InputStream logo = resources.openRawResource(R.drawable.logo_header);
+      BitmapDrawable bitmapDrawable = new BitmapDrawable(resources, logo);
+      Bitmap bitmap = bitmapDrawable.getBitmap();
+      printController.bitmapPrintLine(bitmap, 1);
+    }
+    catch (Exception e){
       e.printStackTrace();
     }
   }

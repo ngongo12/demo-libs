@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.pos.sdk.printer.POIPrinterManager;
+import com.pos.sdk.printer.models.BitmapPrintLine;
 import com.pos.sdk.printer.models.PrintLine;
 import com.pos.sdk.printer.models.TextPrintLine;
 
@@ -69,6 +70,11 @@ public class PrintController {
   public void printTextLine(String content, int size, int position, boolean isBold, boolean isItalic, boolean isInvert){
     TextPrintLine textPrintLine = new TextPrintLine(content, position, size, isBold, isItalic, isInvert);
     addPrintLine(textPrintLine);
+  }
+
+  public void bitmapPrintLine(Bitmap bitmap, int position){
+    BitmapPrintLine bitmapPrintLine = new BitmapPrintLine(bitmap, position);
+    addPrintLine(bitmapPrintLine);
   }
 
 }
